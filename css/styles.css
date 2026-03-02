@@ -1,12 +1,18 @@
+@import url(components.css);
+@import url(variables.css);
+@import url(animations.css);
+@import url(fonts.css);
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'FunnelSans', sans-serif;
+    color: var(--on-background);
 }
 
 body {
-    background-color: var(--platinum-light);
+    background-color: var(--background);
 }
 
 .background-canvas {
@@ -29,12 +35,12 @@ body {
 .header {
     top: 0;
     height: var(--header-height);
-    background-image: linear-gradient(130deg, var(--muted-teal), var(--slate-grey), var(--muted-teal), var(--slate-grey));
+    background-image: linear-gradient(130deg, var(--primary), var(--tertiary-container), var(--primary), var(--tertiary-container));
     background-size: 400% 400%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px -8px 5px 10px #544e61AA;
+    box-shadow: 0px -8px 5px 10px var(--on-background);
     animation: gradientMove 20s infinite;
 }
 
@@ -45,14 +51,14 @@ body {
 .footer {
     bottom: 0;
     height: var(--footer-height);
-    background: var(--vintage-grape);
+    background: var(--secondary-container);
     font-family: 'FunnelSans-Italic', sans-serif;
     display: flex;
     align-items: center;
-    justify-content: right;
+    justify-content: space-between;
     padding-right: 16px;
-    color: var(--linen);
-    box-shadow: 0px 8px 5px 10px #544e61AA;
+    color: var(--on-secondary-container);
+    box-shadow: 0px 8px 5px 10px var(--on-background);
 }
 
 .fixed {
@@ -71,107 +77,3 @@ body {
     gap: var(--flex-gap);
 }
 
-custom-card {
-    display: block;
-    width: 80%;
-    padding: 16px;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px 0 #544e61AA;
-    background-color: white;
-}
-
-.card {
-    width: 80%;
-    padding: 16px;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px 0 #544e61AA;
-    background-color: white;
-}
-
-.card__title {
-    font-weight: 400;
-    color: var(--vintage-grape);
-}
-
-.card__divider {
-    border: none;
-    height: 1px;
-    background-color: var(--muted-teal);
-    margin: 12px 8px;
-}
-
-.card__list {
-    list-style-type: none;
-}
-
-.card__list>li:not(:last-child) {
-    margin-bottom: 8px;
-}
-
-.card__text--light {
-    font-family: 'FunnelSans-Italic';
-    color: var(--muted-teal);
-}
-
-.cal-monthly__header,
-.cal-monthly__day-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-gap: 4px;
-    margin: 0 auto;
-    max-width: 70%;
-    padding: 0;
-}
-
-.cal-monthly li {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    list-style: none;
-    transition: transform 0.2s, background-color 0.2s, border 0.5s, color 0.5s;
-}
-
-.cal-monthly__header li {
-    font-weight: 600;
-    aspect-ratio: 1.5;
-}
-
-.cal-monthly__day-grid li {
-    aspect-ratio: 1;
-    border: solid 1px var(--linen-dark);
-    border-radius: 4px;
-}
-
-.cal-monthly__week-nr {
-    color: var(--muted-teal);
-    border: none !important;
-}
-
-.cal-monthly__day--today {
-    color: var(--vintage-grape);
-    font-weight: 600;
-    background-color: var(--linen-dark);
-}
-
-.cal-monthly__day--prev-month,
-.cal-monthly__day--next-month {
-    color: var(--platinum);
-    border-color: var(--platinum) !important;
-}
-
-.cal-monthly__day--current-month:hover {
-    border: solid 1px var(--muted-teal);
-    color: var(--muted-teal);
-    transform: scale(1.05);
-    background-color: white;
-}
-
-.cal-monthly__day--weekend {
-    background-color: var(--platinum-light);
-}
-
-.cal-monthly__day--prev-month.cal-monthly__day--weekend,
-.cal-monthly__day--next-month.cal-monthly__day--weekend {
-    color: white;
-    border-color: var(--platinum) !important;
-}

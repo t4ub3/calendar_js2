@@ -3,9 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>Kalender 2026</title>
-    <link rel="stylesheet" href="css/fonts.css" />
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/animations.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <script src="scripts/background.js" defer></script>
     <script src="scripts/custom-tags.js" defer></script>
@@ -13,18 +10,21 @@
   </head>
   <body class="full-height" id="holds-background">
     <div class="full-height">
-        <canvas id="background-canvas" class="background-canvas"></canvas>
+      <canvas id="background-canvas" class="background-canvas"></canvas>
       <header class="header fixed">
         <h1 class="header__title">Kalender 2026</h1>
       </header>
       <div class="main-layout">
         <custom-card title="Über den heutigen Tag">
-            <p>
+          <p>
             Heute ist
             <span class="card__text--light"
-              ><span name="current-weekday"></span>, der <span id="full-date"></span></span
-            >. Es ist der <span id="number-of-weekday"></span>. <span name="current-weekday"></span> im Monat <span id="current-month"></span>.
-            Heute ist kein Feiertag, aber wir haben trotzdem alle gute Laune.
+              ><span name="current-weekday"></span>, der
+              <span id="full-date"></span></span
+            >. Es ist der <span id="number-of-weekday"></span>.
+            <span name="current-weekday"></span> im Monat
+            <span id="current-month"></span>. Heute ist kein Feiertag, aber wir
+            haben trotzdem alle gute Laune.
           </p>
         </custom-card>
         <!--
@@ -129,7 +129,7 @@
           </div>
         </custom-card>
         -->
-       
+
         <section class="card">
           <h2 class="card__title" id="calendar-sheet-title">Februar 2026</h2>
           <hr class="card__divider" />
@@ -233,20 +233,18 @@
           </div>
         </section>
         <custom-card title="Feiertage">
-            <p>alle Feiertage diesen Monat</p>
+          <p>alle Feiertage diesen Monat</p>
         </custom-card>
         <custom-card title="Unnützes Wissen">
-            <ul class="card__list">
+          <ul class="card__list">
             <li>
               <span class="card__text--light" id="today-day-in-month">11</span>
               ist <span id="prime-or-not"></span> Primzahl
             </li>
             <li>
               Mehr als
-              <span class="card__text--light" id="now-ms-utc"
-                >5</span
-              >ms
-              sind seit dem 01.01.1970 vergangen
+              <span class="card__text--light" id="now-ms-utc">5</span>ms sind
+              seit dem 01.01.1970 vergangen
             </li>
             <li>
               <span class="card__text--light">1919</span> - Friedrich Ebert wird
@@ -263,7 +261,15 @@
           </ul>
         </custom-card>
       </div>
-      <footer class="footer fixed">© Jonas Neumann, cdemy GmbH, 2026</footer>
+      <footer class="footer fixed">
+        <div>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div>© Jonas Neumann, cdemy GmbH, 2026</div>
+      </footer>
     </div>
   </body>
 </html>

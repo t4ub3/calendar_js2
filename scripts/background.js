@@ -1,8 +1,10 @@
 const rootStyles = getComputedStyle(document.documentElement);
 
-const platinumDark  = { r:208, g:211, b:213 };
-const platinumLight = { r:238, g:241, b:242 };
+const colorSurface = window.getComputedStyle(document.body).getPropertyValue('--surface');
+const colorSurfaceVariant = window.getComputedStyle(document.body).getPropertyValue('--surface-variant');
 
+const colorCellDead = parseHexToRgbObject(colorSurface);
+const colorCellAlive = parseHexToRgbObject(colorSurfaceVariant);
 
 const columns = 50;
 const canvas = document.getElementById("background-canvas");
@@ -17,23 +19,23 @@ const animationDuration = 1500;
 
 const dpr = window.devicePixelRatio || 1;
 
-canvas.width  = window.innerWidth  * dpr;
+canvas.width = window.innerWidth * dpr;
 canvas.height = window.innerHeight * dpr;
 
-canvas.style.width  = window.innerWidth  + "px";
+canvas.style.width = window.innerWidth + "px";
 canvas.style.height = window.innerHeight + "px";
 
 ctx.scale(dpr, dpr);
 
 let currentGrid = Array.from({ length: columns }, () => new Array(rows));
-let nextGrid    = Array.from({ length: columns }, () => new Array(rows));
+let nextGrid = Array.from({ length: columns }, () => new Array(rows));
 
 function initGrid() {
     for (let i = 0; i < currentGrid.length; i++) {
         for (let j = 0; j < currentGrid[i].length; j++) {
             var rndBool = Math.random() < 0.3;
             currentGrid[i][j] = rndBool;
-            var color = rndBool ? platinumLight : platinumDark;
+            var color = rndBool ? colorCellAlive : colorCellDead;
             ctx.fillStyle = color;
             ctx.fillRect(i * cellSize, j * cellSize, cellSize + 1, cellSize + 1);
         }
@@ -55,15 +57,15 @@ function drawGrid(progress) {
         for (let j = 0; j < rows; j++) {
 
             let from = currentGrid[i][j] ? 1 : 0;
-            let to   = nextGrid[i][j]    ? 1 : 0;
+            let to = nextGrid[i][j] ? 1 : 0;
 
             let transitionFactor = from + (to - from) * progress;
 
-            let r = platinumDark.r  + (platinumLight.r  - platinumDark.r)  * transitionFactor;
-            let g = platinumDark.g  + (platinumLight.g  - platinumDark.g)  * transitionFactor;
-            let b = platinumDark.b  + (platinumLight.b  - platinumDark.b)  * transitionFactor;
+            let r = colorCellDead.r + (colorCellAlive.r - colorCellDead.r) * transitionFactor;
+            let g = colorCellDead.g + (colorCellAlive.g - colorCellDead.g) * transitionFactor;
+            let b = colorCellDead.b + (colorCellAlive.b - colorCellDead.b) * transitionFactor;
 
-            ctx.fillStyle = `rgb(${r|0},${g|0},${b|0})`;
+            ctx.fillStyle = `rgb(${r | 0},${g | 0},${b | 0})`;
 
             ctx.fillRect(
                 i * cellSize,
@@ -130,6 +132,23 @@ function countNeighbors(x, y) {
         }
     }
     return count;
+}
+
+function parseHexToRgbObject(hex) {
+    if (isValidSixDigitHex(hex)) {
+        let color = {
+            r: parseInt(hex.slice(1, 3), 16),
+            g: parseInt(hex.slice(3, 5), 16),
+            b: parseInt(hex.slice(5, 7), 16)
+        };
+        return color;
+    }
+    throw new Error('Invalid Hex. Has to be 6 digit!');
+}
+
+function isValidSixDigitHex(hexString) {
+    const hexRegex = /^#([0-9A-Fa-f]{6})$/;
+    return hexRegex.test(hexString);
 }
 
 
