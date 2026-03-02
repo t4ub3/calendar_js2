@@ -1,62 +1,103 @@
 const rootStyles = getComputedStyle(document.documentElement);
 
-const mutedTealLight = rootStyles.getPropertyValue('--muted-teal-light').trim();
-const slateGrey = rootStyles.getPropertyValue('--slate-grey').trim();
-const linen = rootStyles.getPropertyValue('--linen').trim();
-const platinumLight = rootStyles.getPropertyValue('--platinum-light').trim();
-const platinum = rootStyles.getPropertyValue('--platinum').trim();
+const platinumDark  = { r:208, g:211, b:213 };
+const platinumLight = { r:238, g:241, b:242 };
 
 
-const columns = 100;
+const columns = 50;
 const canvas = document.getElementById("background-canvas");
 const width = window.innerWidth;
 const height = window.innerHeight;
 const ctx = canvas.getContext("2d");
-const cellSize = width / columns;
-const rows = Math.floor(height / cellSize);
+const cellSize = Math.round(width / columns);
+const rows = Math.round(height / cellSize);
 
-const delay = 1000;
-let lastTime = 0;
-const animationDuration = 1000;
+const generationDelay = 2000;
+const animationDuration = 1500;
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const dpr = window.devicePixelRatio || 1;
 
-const grid = Array.from({ length: columns }, () => new Array(rows));
+canvas.width  = window.innerWidth  * dpr;
+canvas.height = window.innerHeight * dpr;
+
+canvas.style.width  = window.innerWidth  + "px";
+canvas.style.height = window.innerHeight + "px";
+
+ctx.scale(dpr, dpr);
+
+let currentGrid = Array.from({ length: columns }, () => new Array(rows));
+let nextGrid    = Array.from({ length: columns }, () => new Array(rows));
 
 function initGrid() {
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[i].length; j++) {
+    for (let i = 0; i < currentGrid.length; i++) {
+        for (let j = 0; j < currentGrid[i].length; j++) {
             var rndBool = Math.random() < 0.3;
-            grid[i][j] = rndBool;
-            var color = rndBool ? platinumLight : platinum;
+            currentGrid[i][j] = rndBool;
+            var color = rndBool ? platinumLight : platinumDark;
             ctx.fillStyle = color;
-            ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+            ctx.fillRect(i * cellSize, j * cellSize, cellSize + 1, cellSize + 1);
         }
     }
 }
 
-function draw(timestamp) {
-    if (timestamp - lastTime > delay) {
-        lastTime = timestamp;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        updateGrid()
+function computeNextGrid() {
+    for (let i = 0; i < columns; i++) {
+        for (let j = 0; j < rows; j++) {
+            nextGrid[i][j] = checkNewState(currentGrid[i][j], i, j);
+        }
     }
-    requestAnimationFrame(draw);
 }
 
-function updateGrid() {
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[i].length; j++) {
-            var state = checkNewState(grid[i][j], i, j);
-            grid[i][j] = state;
-            var color = state ? platinumLight : platinum;
-            console.log(color);
-            ctx.fillStyle = color;
-            ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+function drawGrid(progress) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    for (let i = 0; i < columns; i++) {
+        for (let j = 0; j < rows; j++) {
+
+            let from = currentGrid[i][j] ? 1 : 0;
+            let to   = nextGrid[i][j]    ? 1 : 0;
+
+            let transitionFactor = from + (to - from) * progress;
+
+            let r = platinumDark.r  + (platinumLight.r  - platinumDark.r)  * transitionFactor;
+            let g = platinumDark.g  + (platinumLight.g  - platinumDark.g)  * transitionFactor;
+            let b = platinumDark.b  + (platinumLight.b  - platinumDark.b)  * transitionFactor;
+
+            ctx.fillStyle = `rgb(${r|0},${g|0},${b|0})`;
+
+            ctx.fillRect(
+                i * cellSize,
+                j * cellSize,
+                cellSize + 1,
+                cellSize + 1
+            );
         }
-    };
+    }
+}
+
+let lastGenerationTime = 0;
+let transitionStart = 0;
+
+function loop(timestamp) {
+
+    if (timestamp - lastGenerationTime > generationDelay) {
+
+        [currentGrid, nextGrid] = [nextGrid, currentGrid];
+
+        computeNextGrid();
+
+        transitionStart = timestamp;
+        lastGenerationTime = timestamp;
+    }
+
+    let progress = Math.min(
+        (timestamp - transitionStart) / animationDuration,
+        1
+    );
+
+    drawGrid(progress);
+
+    requestAnimationFrame(loop);
 }
 
 function checkNewState(currentState, i, j) {
@@ -83,7 +124,7 @@ function countNeighbors(x, y) {
             const nx = wrap(x + dx, columns);
             const ny = wrap(y + dy, rows);
 
-            if (grid[nx][ny]) {
+            if (currentGrid[nx][ny]) {
                 count++;
             }
         }
@@ -91,6 +132,8 @@ function countNeighbors(x, y) {
     return count;
 }
 
+
 initGrid();
-requestAnimationFrame(draw);
+computeNextGrid();
+requestAnimationFrame(loop);
 
