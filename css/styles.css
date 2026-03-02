@@ -71,6 +71,15 @@ body {
     gap: var(--flex-gap);
 }
 
+custom-card {
+    display: block;
+    width: 80%;
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 #544e61AA;
+    background-color: white;
+}
+
 .card {
     width: 80%;
     padding: 16px;

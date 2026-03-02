@@ -8,6 +8,7 @@
  */
 
 
+
 const elements = {
     todayWeekdayAndDate: document.getElementById("today-weekday-and-date"),
     todayDayInMonth: document.getElementById("today-day-in-month"),
