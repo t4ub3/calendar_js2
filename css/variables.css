@@ -21,7 +21,7 @@
     --on-surface: #323333;
     --surface-variant: #e1e6e4;
     --on-surface-variant: #606663;
-    --outline: #909995;    
+    --outline: #909995;
 
     --header-height: 64px;
     --footer-height: 36px;
@@ -29,7 +29,7 @@
     --flex-gap: 48px;
 }
 
-.dark-theme {
+.dark-mode {
     --primary: #C9E6D8;
     --on-primary: #374C43;
     --primary-container: #496659;
