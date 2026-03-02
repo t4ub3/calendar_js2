@@ -17,7 +17,8 @@ const elements = {
     currentMonth: document.getElementById("current-month"),
     primeOrNot: document.getElementById("prime-or-not"),
     fullDate: document.getElementById("full-date"),
-    body: document.getElementById("holds-background")
+    body: document.getElementById("holds-background"),
+    calendarSheetTitle: document.getElementById("calendar-sheet-title")
 }
 
 const today = new Date(Date.now());
@@ -31,7 +32,8 @@ function setToday() {
     })
     elements.fullDate.innerHTML = today.toLocaleString('de-de', { year: 'numeric', month: '2-digit', day: '2-digit' });
     elements.currentMonth.innerHTML = today.toLocaleString('de-de', { month: 'long' });
-    elements.numberOfWeekday.innerHTML = Math.floor(today.getDate() / 7).toString();
+    elements.numberOfWeekday.innerHTML = (Math.floor(today.getDate() / 7) + 1).toString();
+    elements.calendarSheetTitle.innerText = today.toLocaleString('de-de', { month: 'long', year: 'numeric' });
 }
 
 function formatToWeekdayAndDate(date) {
