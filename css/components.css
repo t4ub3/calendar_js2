@@ -1,11 +1,13 @@
 /* TOGGLE BUTTON */
 
+/* TODO: add icons on the slider before thingy */
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 36px;
+  height: 20px;
 }
 
 /* Hide default HTML checkbox */
@@ -26,18 +28,20 @@
   background-color: #ccc;
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 4px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 4px;
 }
 
 input:checked + .slider {
@@ -49,18 +53,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
 }
 
 /* CARD */
@@ -170,4 +165,35 @@ custom-card {
 .cal-monthly__day--next-month.cal-monthly__day--weekend {
     color: var(--background);
     border-color: var(--surface-variant) !important;
+}
+
+/* HEADER AND FOOTER */
+
+.header {
+    top: 0;
+    height: var(--header-height);
+    background-image: linear-gradient(130deg, var(--primary), var(--tertiary-container), var(--primary), var(--tertiary-container));
+    background-size: 400% 400%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px -8px 5px 10px var(--on-background);
+    animation: gradientMove 20s infinite;
+}
+
+.header__title {
+    font-family: 'PoiretOne', 'FunnelSans', sans-serif;
+}
+
+.footer {
+    bottom: 0;
+    height: var(--footer-height);
+    background: var(--secondary-container);
+    font-family: 'FunnelSans-Italic', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    color: var(--on-secondary-container);
+    box-shadow: 0px 8px 5px 10px var(--on-background);
 }
