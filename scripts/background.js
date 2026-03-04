@@ -1,10 +1,10 @@
 const rootStyles = getComputedStyle(document.documentElement);
 
-const colorSurface = window.getComputedStyle(document.body).getPropertyValue('--surface');
-const colorSurfaceVariant = window.getComputedStyle(document.body).getPropertyValue('--surface-variant');
+let colorSurface = window.getComputedStyle(document.body).getPropertyValue('--surface');
+let colorSurfaceVariant = window.getComputedStyle(document.body).getPropertyValue('--surface-variant');
 
-const colorCellDead = parseHexToRgbObject(colorSurface);
-const colorCellAlive = parseHexToRgbObject(colorSurfaceVariant);
+let colorCellDead = parseHexToRgbObject(colorSurface);
+let colorCellAlive = parseHexToRgbObject(colorSurfaceVariant);
 
 const columns = 50;
 const canvas = document.getElementById("background-canvas");
@@ -150,7 +150,6 @@ function isValidSixDigitHex(hexString) {
     const hexRegex = /^#([0-9A-Fa-f]{6})$/;
     return hexRegex.test(hexString);
 }
-
 
 initGrid();
 computeNextGrid();
