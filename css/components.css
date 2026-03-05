@@ -1,6 +1,58 @@
 /* TOGGLE BUTTON */
 
-/* TODO: add icons on the slider before thingy */
+.mode-toggle {
+    padding: 3px;
+    width: 48px;
+
+    position: relative;
+    border-radius: 16px;
+    border: none;
+    background-color: var(--icon);
+    cursor: pointer;
+}
+
+.mode-toggle>span {
+    height: 28px;
+    width: 28px;
+
+    position: relative;
+    display: block;
+
+    border-radius: 50%;
+
+    background-color: var(--surface);
+}
+
+body[darkmode="on"] .mode-toggle>span {
+    left: 100%;
+    transform: translateX(-100%);
+}
+
+.mode-toggle>span>img {
+    height: 24px;
+    width: 24px;
+    fill: var(--icon);
+
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+body[darkmode="off"] .mode-toggle>span>img:nth-child(1) {
+    opacity: 1;
+}
+
+body[darkmode="off"] .mode-toggle>span>img:nth-child(2) {
+    opacity: 0;
+}
+
+body[darkmode="on"] .mode-toggle>span>img:nth-child(1) {
+    opacity: 0;
+}
+
+body[darkmode="on"] .mode-toggle>span>img:nth-child(2) {
+    opacity: 1;
+}
 
 /* The switch - the box around the slider */
 .switch {
@@ -63,6 +115,7 @@ input:checked + .slider:before {
 custom-card {
     display: block;
     width: 80%;
+    max-width: 800px;
     padding: 16px;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 black;
@@ -71,6 +124,7 @@ custom-card {
 
 .card {
     width: 80%;
+    max-width: 800px;
     padding: 16px;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 black;

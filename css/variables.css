@@ -22,9 +22,10 @@
     --surface-variant: #e1e6e4;
     --on-surface-variant: #606663;
     --outline: #909995;
+    --icon: #F2C94C;
 
     --header-height: 64px;
-    --footer-height: 36px;
+    --footer-height: 48px;
 
     --flex-gap: 48px;
 }
@@ -53,4 +54,5 @@
     --surface-variant: #606663;
     --on-surface-variant: #e0e6e3;
     --outline: #acb3b0;
+    --icon: #98ccf6;
 }

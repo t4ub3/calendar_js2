@@ -1,34 +1,31 @@
-let darkmode = localStorage.getItem('darkmode')
-const themeSwitch = document.getElementById('theme-switch')
+let darkmode = localStorage.getItem('darkmode');
+const modeToggle = document.getElementById('theme-toggle');
 
-const enableDarkmode = () => {
-    document.body.classList.add('dark-mode');
-    localStorage.setItem('darkmode', 'active');
-    console.log("darkmode on");
-}
-
-const disableDarkmode = () => {
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('darkmode', null);
-    console.log("darkmode off");
-}
-
-if (darkmode === "active") {
-    enableDarkmode();
-}
-
-themeSwitch.addEventListener("change", function () {
-
-    darkmode = localStorage.getItem('darkmode');
-    if (this.checked) {
-        enableDarkmode();
-    } else {
-        disableDarkmode();
-    }    
-
+function setBackgroundColors() {
     colorSurface = window.getComputedStyle(document.body).getPropertyValue('--surface');
     colorSurfaceVariant = window.getComputedStyle(document.body).getPropertyValue('--surface-variant');
 
     colorCellDead = parseHexToRgbObject(colorSurface);
     colorCellAlive = parseHexToRgbObject(colorSurfaceVariant);
+}
+
+function setDarkMode(darkmodeState) {
+    localStorage.setItem('darkmode', darkmodeState);
+    document.body.setAttribute("darkmode", darkmodeState);
+
+    if (darkmodeState === "on") {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
+    //needs to be called after setting the "dark-mode" class on body
+    setBackgroundColors();
+    console.log("darkmode: " + darkmodeState);
+}
+
+setDarkMode(darkmode);
+
+modeToggle.addEventListener("click", function () {
+    darkmode = (darkmode === "on") ? "off" : "on";
+    setDarkMode(darkmode);
 })
