@@ -8,7 +8,7 @@
  */
 
 
-
+// get all the needed html elements
 const elements = {
     todayWeekdayAndDate: document.getElementById("today-weekday-and-date"),
     todayDayInMonth: document.getElementById("today-day-in-month"),
@@ -22,8 +22,7 @@ const elements = {
     calendarSheetTitle: document.getElementById("calendar-sheet-title")
 }
 
-const today = new Date(Date.now());
-
+// adjust displayed data to match today
 function setToday() {
     elements.nowMsUtc.innerHTML = today.getTime().toString();
     elements.todayDayInMonth.innerHTML = today.getDate().toString();
@@ -37,33 +36,9 @@ function setToday() {
     elements.calendarSheetTitle.innerText = today.toLocaleString('de-de', { month: 'long', year: 'numeric' });
 }
 
-function formatToWeekdayAndDate(date) {
-    let output = "ein schöner Tag";
-    if (date instanceof Date) {
-        let formattedDate = "";
-    }
-
-    return output;
-}
-
 function isPrime(dateNumber) {
     return (dateNumber in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]);
 }
 
-function setCurrentWeekday() {
-    elements.listCurrentWeekdays.forEach((item) => {
-        item.innerHTML = today.toLocaleString('en-us', { weekday: 'long' })
-    })
-}
-
-function calcNumberOfWeekdayInMonth() {
-    let result = Math.floor(today.getDate() / 7);
-    return result in [1,2,3,4,5] ? result.toString() : '1';
-}
-
-function changeBackgrundColor() {
-    //elements.body.setAttribute("class", "body-green");
-}
-
+const today = new Date(Date.now());
 setToday();
-changeBackgrundColor();
