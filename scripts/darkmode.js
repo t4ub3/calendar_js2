@@ -20,7 +20,6 @@ function setDarkMode(darkmodeState) {
     }
     //needs to be called after setting the "dark-mode" class on body
     setBackgroundColors();
-    console.log("darkmode: " + darkmodeState);
 }
 
 setDarkMode(darkmode);

@@ -45,16 +45,9 @@ function isPrime(dateNumber) {
 }
 
 function setupCalendarSheet() {
-    /*
-    - welcher Wochentag ist 1. des Monats
-    - wie viele Tage zuvor? wie viele Tage nach dem letzten des Monats?
-    - welche KW hat der erste des Monats?
-    - array erstellen mit allen Tagen, alle 8 Werte KW einfügen (immer 40 Elemente)
-    - iterieren und <li> mit entsprechender Klasse erstellen
-    */
-   
+    
     function calcfirstMonday() {
-        let factor = (today.getDay() + 6) % 7;
+        let factor = (firstOfMonth.getDay() + 6) % 7;
         let date = new Date(firstOfMonth.valueOf() - (86400000 * factor));
         return date;
     }
@@ -62,46 +55,88 @@ function setupCalendarSheet() {
     const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     const firstMonday = calcfirstMonday();
     const lastOfPreviousMonth = new Date(firstOfMonth.valueOf() - 86400000);
-    const firstOfNextMonth = (today.getMonth === 11) ? new Date(today.getFullYear + 1, 1, 1) : new Date(today.getFullYear, today.getMonth + 1, 1);
-    const calendarCells = new Array(40).fill(1);
+    //const firstOfNextMonth = (today.getMonth === 11) ? new Date(today.getFullYear + 1, 1, 1) : new Date(today.getFullYear, today.getMonth + 1, 1);
+    const firstOfNextMonth = new Date(2026, 4, 1);
+    const lastOfCurrentMonth = new Date(firstOfNextMonth.valueOf() - 86400000);
+    const calendarCells = new Array(48).fill(1);
     let dayCount = firstMonday.getDate();
-    console.log(firstMonday);
-    console.log(dayCount);
+
+    let totalCount = 0;
 
 
     let weekCount = 1 //TODO implement week count (its based on the first thursday of a year!)
 
-    console.log(calendarCells);
+    el = document.createElement("li");
+    el.innerText = weekCount.toString();
+    el.classList.add('cal-monthly__week-nr');
+    elements.calendarSheetCells.appendChild(el);
+    totalCount++;
+    weekCount++;
 
-    calendarCells.forEach((el, i) => {
+    // previous month
+    for (i = firstMonday.getDate(); i <= lastOfPreviousMonth.getDate(); i++) {
         el = document.createElement("li");
-        // only for calendar weeks
-        if (i % 8 === 0) {
+        el.innerText = i.toString();
+        el.classList.add('cal-monthly__day--prev-month');
+        //check for weekends
+        if (totalCount % 8 >= 6) {
+            el.classList.add('cal-monthly__day--weekend');
+        }
+        elements.calendarSheetCells.appendChild(el);
+        totalCount++;
+    }
+
+    // current month
+    for (i = 1; i <= lastOfCurrentMonth.getDate() + 1; i++) {
+        el = document.createElement("li");
+        if (totalCount % 8 === 0) {
             el.innerText = weekCount.toString();
             el.classList.add('cal-monthly__week-nr');
+            elements.calendarSheetCells.appendChild(el);
             weekCount++;
+            totalCount++;
+            i--;
         }
         // for all actual days
         else {
-            el.innerText = dayCount.toString();
-            el.classList.add('cal-monthly__day');
+            el.innerText = i.toString();
+            el.classList.add('cal-monthly__day--current-month');
             //check for weekends
-            if (i % 8 >= 6) {
-                el.classList.add('cal-monthly__weekend');
+            if (totalCount % 8 >= 6) {
+                el.classList.add('cal-monthly__day--weekend');
             }
-            dayCount++;
+            // check for today
+            if (i === today.getDate()) {
+                el.classList.add('cal-monthly__day--today');
+            }
+            elements.calendarSheetCells.appendChild(el);
+            totalCount++;
         }
-        elements.calendarSheetCells.appendChild(el);
-        calendarCells[i] = el;
-    });
+    }
 
-    /*CSS Klassen anpassen (aufeinander aufbauend, ggf. kombiantionen beachten):
-    - KW
-    - default: ausgegraut
-    - current-month
-    - weekend
-    - today
-    */
+    // next month
+    for (i = 1; totalCount < calendarCells.length; i++) {
+        el = document.createElement("li");
+        if (totalCount % 8 === 0) {
+            el.innerText = weekCount.toString();
+            el.classList.add('cal-monthly__week-nr');
+            elements.calendarSheetCells.appendChild(el);
+            weekCount++;
+            totalCount++;
+            i--;
+        }
+        // for all actual days
+        else {
+            el.innerText = i.toString();
+            el.classList.add('cal-monthly__day--next-month');
+            //check for weekends
+            if (totalCount % 8 >= 6) {
+                el.classList.add('cal-monthly__day--weekend');
+            }
+            elements.calendarSheetCells.appendChild(el);
+            totalCount++;
+        }
+    }
 }
 
 const today = new Date(Date.now());

@@ -26,8 +26,6 @@ class CustomCard extends HTMLElement {
 
         section.append(h2, hr, contentWrapper);
         this.appendChild(section);
-
-        console.log("CustomCard connected");
     }
 
     // Observe title attribute changes
