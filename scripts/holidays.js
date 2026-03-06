@@ -863,9 +863,18 @@ const holidayCard = document.getElementById("holiday-card");
 
 if (currentHolidays.length !== 0) {
     currentHolidays.forEach((holiday) => {
-        let item = document.createElement("li");
-        item.innerText = holiday.date + " - " + holiday.fname;
+        let item = document.createElement("p");
+        item.classList.add('holiday__item');
         holidayCard.appendChild(item);
+        
+        let dateString = document.createElement("span");
+        dateString.classList.add('holiday__date');
+        dateString.innerText = holiday.date;
+
+        let nameString = document.createElement("span");
+        nameString.innerText = " - " + holiday.fname;
+        item.appendChild(dateString);
+        item.appendChild(nameString);
     })
 } else {
     let placeholder = document.createElement("p");
