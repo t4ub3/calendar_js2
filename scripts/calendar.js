@@ -24,6 +24,15 @@ const elements = {
 
 }
 
+function getWeekNr(date) {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return weekNo;
+}
+
 // adjust displayed data to match today
 function setToday() {
     elements.nowMsUtc.innerHTML = today.getTime().toString();
@@ -45,7 +54,7 @@ function isPrime(dateNumber) {
 }
 
 function setupCalendarSheet() {
-    
+
     function calcfirstMonday() {
         let factor = (firstOfMonth.getDay() + 6) % 7;
         let date = new Date(firstOfMonth.valueOf() - (86400000 * factor));
@@ -55,17 +64,14 @@ function setupCalendarSheet() {
     const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     const firstMonday = calcfirstMonday();
     const lastOfPreviousMonth = new Date(firstOfMonth.valueOf() - 86400000);
-    //const firstOfNextMonth = (today.getMonth === 11) ? new Date(today.getFullYear + 1, 1, 1) : new Date(today.getFullYear, today.getMonth + 1, 1);
-    const firstOfNextMonth = new Date(2026, 4, 1);
+    const firstOfNextMonth = (today.getMonth() === 11) ? new Date(today.getFullYear() + 1, 1, 1) : new Date(today.getFullYear(), today.getMonth() + 1, 1);
     const lastOfCurrentMonth = new Date(firstOfNextMonth.valueOf() - 86400000);
     const calendarCells = new Array(48).fill(1);
-    let dayCount = firstMonday.getDate();
 
     let totalCount = 0;
+    let weekCount = getWeekNr(firstMonday);
 
-
-    let weekCount = 1 //TODO implement week count (its based on the first thursday of a year!)
-
+    // set the first calendar week
     el = document.createElement("li");
     el.innerText = weekCount.toString();
     el.classList.add('cal-monthly__week-nr');
@@ -87,7 +93,7 @@ function setupCalendarSheet() {
     }
 
     // current month
-    for (i = 1; i <= lastOfCurrentMonth.getDate() + 1; i++) {
+    for (i = 1; i <= lastOfCurrentMonth.getDate(); i++) {
         el = document.createElement("li");
         if (totalCount % 8 === 0) {
             el.innerText = weekCount.toString();
